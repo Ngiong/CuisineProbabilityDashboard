@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Cuisine Ingredient Probability Visualization</title>
+    <link rel="stylesheet" type="text/css" href="filter.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.5.2/animate.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="container-small" id="main-container">
+        <div class="container-fluid" id="filter">
+            <div class="col-md-6">
+                <div class="dropdown" id="cuisine-filter">
+                    <button id="activeCuisine" class="btn btn-md btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+                        Filter by Cuisine <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" id="cuisine-dropdown-menu">
+                    </ul>
+                    <button id="clearCuisine" class="btn btn-md btn-danger" onclick="clearCuisineFilter()">✘</button>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="dropdown" id="ingredient-filter">
+                    <button id="activeIngredient" class="btn btn-md btn-default dropdown-toggle" type="button" data-toggle="dropdown">
+                        Filter by Ingredient <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" id="ingredient-dropdown-menu">
+                    </ul>
+                    
+                    <button id="clearIngredient" class="btn btn-md btn-danger" onclick="clearIngredientFilter()">✘</button>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid" id="result">
+        </div>
+    </div>
+</body>
+<script src="data.js"></script>
+<script>
+    var cuisineMenu = ['British', 'Italian', 'Moroccan', 'Indian', 'Chinese', 'Korean', 'Thai', 'Brazilian', 'Mexican']
+    var ingredientMenu = ['Apple', 'Banana', 'Strawberry']
+
+    var activeCuisine = 0
+    var activeIngredient = 0
+
+    var queryResult = []
+
+    var initFilterDropdownMenu = function() {
+        cuisineMenu.forEach(menu => { 
+            $('#cuisine-dropdown-menu').append('<li id="' + menu.toLowerCase() + '"><a href="#">' + menu + '</a></li>')
+            $("li#"+menu.toLowerCase()+' > a').click(e => {
+                e.preventDefault()
+                activeCuisine = menu.toLowerCase()
+                $('#activeCuisine').html(menu + '<span class="caret"></span>')
+                executeQueryAndDisplay()
+            })
+        })
+        ingredientMenu.forEach(menu => { 
+            $('#ingredient-dropdown-menu').append('<li id="' + menu.toLowerCase() + '"><a href="#">' + menu + '</a></li>')
+            $("li#"+menu.toLowerCase()+' > a').click(e => {
+                e.preventDefault()
+                activeIngredient = menu.toLowerCase()
+                $('#activeIngredient').html(menu + '<span class="caret"></span>')
+                executeQueryAndDisplay()
+            })
+        })
+    }
+
+    var clearCuisineFilter = function() {
+        activeCuisine = 0;
+        $('#activeCuisine').html('Filter by Cuisine <span class="caret"></span>')
+        executeQueryAndDisplay()
+    }
+
+    var clearIngredientFilter = function() {
+        activeIngredient = 0;
+        $('#activeIngredient').html('Filter by Ingredient <span class="caret"></span>')
+        executeQueryAndDisplay()
+    }
+
+    var createResultComponent = function(item) {
+        if (item.type === 'CUISINE') {
+            return '<p>' + item.name + " [CUISINE] " + item.value + "</p>"
+        } else if (item.type === 'INGREDIENT') {
+            return '<p>' + item.name + " [INGREDIENT] " + item.value + "</p>"
+        } else { // 'NOTHING'
+            return '<p>Still no result :(</p>'
+        }
+    }
+
+    var executeQueryAndDisplay = () => {
+        console.log(activeCuisine, activeIngredient)
+        queryResult = []
+        if (activeCuisine && activeIngredient) {
+            // Tampilin activeCuisine dan activeIngredient
+            var cuisine = cuisines.filter(x => x.id === activeCuisine)[0]
+            var probability = cuisine.probability[activeIngredient]
+            queryResult.push({ type: 'INGREDIENT', name: activeIngredient, value: probability })
+        } else if (activeCuisine) {
+            // Tampilin activeCuisine dan SEMUA ingredients
+            var cuisine = cuisines.filter(x => x.id === activeCuisine)[0]
+            var probability = cuisine.probability
+            Object.keys(cuisine.probability).forEach(ingred => {
+                queryResult.push({ type: 'INGREDIENT', name: ingred, value: probability[ingred] })
+            })
+        } else if (activeIngredient) {
+            // Tampilin cuisine2 yg paling besar probabilitynya di ingredients tsb.
+            cuisines.forEach(cuisine => {
+                var activeIngredientProbability = (cuisine.probability[activeIngredient]) ? cuisine.probability[activeIngredient] : 0.0
+                queryResult.push({ type: 'CUISINE', name: cuisine.id, value: activeIngredientProbability })
+            })
+        } else {
+            // Tampilin "select filter"
+            queryResult.push({ type: 'NOTHING' })
+        }
+        queryResult.sort((a, b) => b.value - a.value)
+        displayFiltered()
+     }
+
+    var displayFiltered = function () {
+        $('#result').empty()
+        queryResult.forEach(result => $('#result').append(createResultComponent(result)))
+    }
+
+    $(document).ready(() => {
+        initFilterDropdownMenu()
+    })
+</script>

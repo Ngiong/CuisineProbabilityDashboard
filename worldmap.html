@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Cuisine Ingredient Probability Visualization</title>
+    <link rel="stylesheet" type="text/css" href="worldmap.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.5.2/animate.min.css">
+    <link href='https://fonts.googleapis.com/css?family=Bubblegum Sans' rel='stylesheet'>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+
+<body style="overflow-y: hidden">
+    <img class="worldmap" src="public/worldmap-empty.png" />
+    <img class="detail" id="british" src="public/british.png" />
+    <img class="detail" id="italian" src="public/italian.png" />
+    <img class="detail" id="moroccan" src="public/moroccan.png" />
+    <img class="detail" id="indian" src="public/indian.png" />
+    <img class="detail" id="chinese" src="public/chinese.png" />
+    <img class="detail" id="korean" src="public/korean.png" />
+    <img class="detail" id="thai" src="public/thai.png" />
+    <img class="detail" id="brazilian" src="public/brazilian.png" />
+    <img class="detail" id="mexican" src="public/mexican.png" />
+
+    <div class="circleDiv" id="british"></div>
+    <div class="circleDiv" id="italian"></div>
+    <div class="circleDiv" id="moroccan"></div>
+    <div class="circleDiv" id="indian"></div>
+    <div class="circleDiv" id="chinese"></div>
+    <div class="circleDiv" id="korean"></div>
+    <div class="circleDiv" id="thai"></div>
+    <div class="circleDiv" id="brazilian"></div>
+    <div class="circleDiv" id="mexican"></div>
+
+    <!-- <map name="image-map">
+      <area target="" id="british" title="british" href="#" coords="886,173,97" shape="circle" />
+      <area target="" id="italian" title="italian" href="#" coords="1082,334,93" shape="circle" />
+      <area target="" id="moroccan" title="moroccan" href="#" coords="826,430,95" shape="circle" />
+      <area target="" id="indian" title="indian" href="#" coords="1379,474,94" shape="circle" />
+      <area target="" id="chinese" title="chinese" href="#" coords="1519,276,96" shape="circle" />
+      <area target="" id="korean" title="korean" href="#" coords="1734,332,96" shape="circle" />
+      <area target="" id="thai" title="thai" href="#" coords="1607,562,97" shape="circle" />
+      <area target="" id="brazilian" title="brazilian" href="#" coords="632,679,97" shape="circle" />
+      <area target="" id="mexican" title="mexican" href="#" coords="275,470,94" shape="circle" />
+  </map> -->
+</body>
+<script src="data.js"></script>
+<script>
+    // -- CONSTANT LABELING
+    var CONST = {
+        CUISINE_TITLE_EXTRAMARGIN: 150,
+        INACTIVE_FOOD_SIZE: 200,
+        INACTIVE_CIRCLE_SIZE: 275,
+        INACTIVE_FOOD_ZINDEX: 1,
+        ACTIVE_FOOD_SIZE: 275,
+        ACTIVE_CIRCLE_SIZE: 500,
+        ACTIVE_FOOD_ZINDEX: 3
+    }
+
+    // -- POSITION INITIALIZERS
+    var setCuisineFoodPosition = function (cuisine, SIZE) {
+        var obj = cuisines.find(elem => elem.id === cuisine)
+        TOP = obj.y - SIZE / 2; LEFT = obj.x - SIZE / 2
+        $('.detail#' + cuisine).css({ width: SIZE, height: SIZE, top: TOP, left: LEFT })
+    }
+
+    var setIngredientsCirclePosition = function (cuisine, SIZE) {
+        var obj = cuisines.find(elem => elem.id === cuisine)
+        TOP = obj.y - SIZE / 2; LEFT = obj.x - SIZE / 2
+        $('.circleDiv#' + cuisine).css({ width: SIZE, height: SIZE, top: TOP, left: LEFT })
+    }
+
+    // -- INGREDIENTS CIRCLE INITIALIZERS
+    var initIngredientsCircle = function (cuisine) {
+        setIngredientsCirclePosition(cuisine, CONST.INACTIVE_CIRCLE_SIZE)
+        initCuisineTitle(cuisine, CONST.ACTIVE_FOOD_SIZE, CONST.CUISINE_TITLE_EXTRAMARGIN)
+    }
+
+    var initCuisineTitle = function (cuisine, WIDTH, EXTRAMARGIN) {
+        var div = '<div class="cuisineTitle" id="' + cuisine + '">' + cuisine.toUpperCase() +  '</div>'
+        $('.circleDiv#' + cuisine).append(div)
+        var obj = cuisines.find(elem => elem.id === cuisine)
+        TOP = obj.y + EXTRAMARGIN; LEFT = obj.x - WIDTH / 2
+        $('.cuisineTitle#' + cuisine).css({ width: WIDTH, top: TOP, left: LEFT })
+    }
+
+    // -- HOVER INTERACTIONS
+    var showDetails = function (cuisine) {
+        setCuisineFoodPosition(cuisine, CONST.ACTIVE_FOOD_SIZE)
+        setIngredientsCirclePosition(cuisine, CONST.ACTIVE_CIRCLE_SIZE)
+        $('.detail#' + cuisine).css({ zIndex: CONST.ACTIVE_FOOD_ZINDEX })
+        $('.circleDiv#' + cuisine).css({ opacity: 1, zIndex: 2 })
+    }
+    var hideDetails = function (cuisine) {
+        setCuisineFoodPosition(cuisine, CONST.INACTIVE_FOOD_SIZE)
+        setIngredientsCirclePosition(cuisine, CONST.INACTIVE_CIRCLE_SIZE)
+        $('.detail#' + cuisine).css({ zIndex: CONST.INACTIVE_FOOD_ZINDEX })
+        $('.circleDiv#' + cuisine).css({ opacity: 0, zIndex: 0 })
+    }
+
+    $(document).ready(() => {
+        cuisines.forEach(cuisine => {
+            $('.detail#' + cuisine.id).hover(() => { // handlerIn
+                showDetails(cuisine.id)
+            }, () => { // handlerOut
+                hideDetails(cuisine.id)
+            })
+
+            setCuisineFoodPosition(cuisine.id, 200)
+            initIngredientsCircle(cuisine.id)
+        })
+
+
+    })
+</script>
+
+</html>

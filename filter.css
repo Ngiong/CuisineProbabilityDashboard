@@ -1,0 +1,54 @@
+#filter {
+    /* background-color: blue; */
+    margin: 2em;
+}
+
+.dropdown > #activeCuisine, #activeIngredient {
+    min-width: 75%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#result {
+    /* background-color: cyan; */
+    flex: 1;
+    width: 100%;
+    overflow-y: auto;
+}
+
+#main-container {
+    /* background-color: lightcyan; */
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+@media (min-width: 768px) {
+    .container-small {
+        width: 300px;
+    }
+    .container-large {
+        width: 970px;
+    } 
+} 
+@media (min-width: 992px) {
+    .container-small {
+        width: 500px;
+    }
+    .container-large {
+        width: 1170px;
+    } 
+} 
+@media (min-width: 1200px) {
+    .container-small {
+        width: 700px;
+    }
+    .container-large {
+        width: 1500px;
+    } 
+}
+
+.container-small, .container-large {
+    max-width: 100%;
+}
