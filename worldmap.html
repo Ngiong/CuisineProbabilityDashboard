@@ -11,26 +11,29 @@
 </head>
 
 <body style="overflow-y: hidden">
-    <img id="worldmap" src="public/worldmap-empty.png" />
-    <img class="detail" id="british" src="public/british.png" />
-    <img class="detail" id="italian" src="public/italian.png" />
-    <img class="detail" id="moroccan" src="public/moroccan.png" />
-    <img class="detail" id="indian" src="public/indian.png" />
-    <img class="detail" id="chinese" src="public/chinese.png" />
-    <img class="detail" id="korean" src="public/korean.png" />
-    <img class="detail" id="thai" src="public/thai.png" />
-    <img class="detail" id="brazilian" src="public/brazilian.png" />
-    <img class="detail" id="mexican" src="public/mexican.png" />
+    <div class="title">Several Ingredient Probability in Some Countries</div>
+    <div style="transform: translateY(0);">
+        <img id="worldmap" src="public/worldmap-empty.png" />
+        <img class="detail" id="british" src="public/british.png" />
+        <img class="detail" id="italian" src="public/italian.png" />
+        <img class="detail" id="moroccan" src="public/moroccan.png" />
+        <img class="detail" id="indian" src="public/indian.png" />
+        <img class="detail" id="chinese" src="public/chinese.png" />
+        <img class="detail" id="korean" src="public/korean.png" />
+        <img class="detail" id="thai" src="public/thai.png" />
+        <img class="detail" id="brazilian" src="public/brazilian.png" />
+        <img class="detail" id="mexican" src="public/mexican.png" />
 
-    <div class="circleDiv" id="british"></div>
-    <div class="circleDiv" id="italian"></div>
-    <div class="circleDiv" id="moroccan"></div>
-    <div class="circleDiv" id="indian"></div>
-    <div class="circleDiv" id="chinese"></div>
-    <div class="circleDiv" id="korean"></div>
-    <div class="circleDiv" id="thai"></div>
-    <div class="circleDiv" id="brazilian"></div>
-    <div class="circleDiv" id="mexican"></div>
+        <div class="circleDiv" id="british"></div>
+        <div class="circleDiv" id="italian"></div>
+        <div class="circleDiv" id="moroccan"></div>
+        <div class="circleDiv" id="indian"></div>
+        <div class="circleDiv" id="chinese"></div>
+        <div class="circleDiv" id="korean"></div>
+        <div class="circleDiv" id="thai"></div>
+        <div class="circleDiv" id="brazilian"></div>
+        <div class="circleDiv" id="mexican"></div>
+    </div>
 
     <!-- <map name="image-map">
       <area target="" id="british" title="british" href="#" coords="886,173,97" shape="circle" />
@@ -46,6 +49,8 @@
 </body>
 <script src="data.js"></script>
 <script>
+    var prevHoveredCuisine = null
+
     // -- CONSTANT LABELING
     var CONST = {
         RESCALING_FACTOR: 0.5,
@@ -54,9 +59,9 @@
         INACTIVE_CIRCLE_SIZE: 275,
         INACTIVE_FOOD_ZINDEX: 1,
         ACTIVE_FOOD_SIZE: 275,
-        ACTIVE_CIRCLE_SIZE: 500,
+        ACTIVE_CIRCLE_SIZE: 450,
         ACTIVE_FOOD_ZINDEX: 3,
-        INGREDIENT_RADIUS: 200, // (ACTIVE_FOOD_SIZE + ACTIVE_FOOD_CIRCLE) / 2
+        INGREDIENT_RADIUS: 175, // (ACTIVE_FOOD_SIZE + ACTIVE_FOOD_CIRCLE) / 2
         INGREDIENT_THETAS: [217,164,114,66,15,323], // in degree
         INGREDIENT_SIZE: 75
     }
@@ -128,12 +133,14 @@
 
     // -- HOVER INTERACTIONS
     var showDetails = function (cuisine) {
+        if (prevHoveredCuisine) hideDetails(prevHoveredCuisine); prevHoveredCuisine = cuisine
         setCuisineFoodPosition(cuisine, CONST.ACTIVE_FOOD_SIZE)
         setIngredientsCirclePosition(cuisine, CONST.ACTIVE_CIRCLE_SIZE)
         $('.detail#' + cuisine).css({ zIndex: CONST.ACTIVE_FOOD_ZINDEX })
         $('.circleDiv#' + cuisine).css({ opacity: 1, zIndex: 2 })
     }
     var hideDetails = function (cuisine) {
+        if (prevHoveredCuisine === cuisine) prevHoveredCuisine = null
         setCuisineFoodPosition(cuisine, CONST.INACTIVE_FOOD_SIZE)
         setIngredientsCirclePosition(cuisine, CONST.INACTIVE_CIRCLE_SIZE)
         $('.detail#' + cuisine).css({ zIndex: CONST.INACTIVE_FOOD_ZINDEX })

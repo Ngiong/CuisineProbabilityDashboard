@@ -1,3 +1,9 @@
+.title {
+  font-size: 3em;
+  font-family: 'Bubblegum Sans';
+  white-space: nowrap;
+}
+
 .bg {
   height: 90vh;
 }
