@@ -104,16 +104,16 @@
         queryResult = []
         if (activeCuisine && activeIngredient) {
             // Tampilin activeCuisine dan activeIngredient
-            var cuisine = cuisines.filter(x => x.id === activeCuisine)[0]
+            var cuisine = cuisines.find(x => x.id === activeCuisine)
             var probability = cuisine.probability[activeIngredient]
-            var ingredientImg = ingredients.filter(x => x.id === activeIngredient)[0].img
+            var ingredientImg = ingredients.find(x => x.id === activeIngredient).img
             queryResult.push({ name: activeIngredient, value: probability, img: ingredientImg  })
         } else if (activeCuisine) {
             // Tampilin activeCuisine dan SEMUA ingredients
-            var cuisine = cuisines.filter(x => x.id === activeCuisine)[0]
+            var cuisine = cuisines.find(x => x.id === activeCuisine)
             var probability = cuisine.probability
             Object.keys(cuisine.probability).forEach(ingred => {
-                var ingredientImg = ingredients.filter(x => x.id === ingred)[0].img
+                var ingredientImg = ingredients.find(x => x.id === ingred).img
                 queryResult.push({ name: ingred, value: probability[ingred], img: ingredientImg })
             })
         } else if (activeIngredient) {

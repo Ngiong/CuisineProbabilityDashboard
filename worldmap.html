@@ -55,8 +55,15 @@
         INACTIVE_FOOD_ZINDEX: 1,
         ACTIVE_FOOD_SIZE: 275,
         ACTIVE_CIRCLE_SIZE: 500,
-        ACTIVE_FOOD_ZINDEX: 3
+        ACTIVE_FOOD_ZINDEX: 3,
+        INGREDIENT_RADIUS: 200, // (ACTIVE_FOOD_SIZE + ACTIVE_FOOD_CIRCLE) / 2
+        INGREDIENT_THETAS: [217,164,114,66,15,323], // in degree
+        INGREDIENT_SIZE: 75
     }
+    var RESCALABLE_CONST = [
+        'CUISINE_TITLE_EXTRAMARGIN', 'INACTIVE_FOOD_SIZE', 'INACTIVE_CIRCLE_SIZE',
+        'ACTIVE_FOOD_SIZE', 'ACTIVE_CIRCLE_SIZE', 'INGREDIENT_RADIUS', 'INGREDIENT_SIZE'
+    ]
 
     // -- POSITION INITIALIZERS
     var setCuisineFoodPosition = function (cuisine, SIZE) {
@@ -72,9 +79,43 @@
     }
 
     // -- INGREDIENTS CIRCLE INITIALIZERS
+    var createIngredientItemComponent = function(id, ingredient, value) {
+        var img = ingredients.find(x => x.id === ingredient).img
+        return '<img id="'+id+'" class="ingredient-item-img" src="'+img+'" />'
+    }
+
+    var rotate = function (cx, cy, x, y, angle) {
+        var radians = (Math.PI / 180.0) * angle,
+        cos = Math.cos(radians),
+        sin = Math.sin(radians),
+        nx = (cos * (x - cx)) + (sin * (y - cy)) + cx,
+        ny = (cos * (y - cy)) - (sin * (x - cx)) + cy;
+        return { x: nx, y: ny }
+    }
+    var translateAndRotate = function (x, y, r, theta) {
+        var newX = x + r, newY = y
+        return rotate(x, y, newX, newY, theta)
+    }
+
+    var initIngredientItems = function (cuisine, SIZE) {
+        var tmp = cuisines.find(x => x.id === cuisine)
+        var cuisineX = tmp.x; cuisineY = tmp.y
+        var displayedIngredients = tmp.worldmapDisplayedIngredients
+        displayedIngredients.forEach((item, idx) => {
+            $('.circleDiv#'+cuisine).append(createIngredientItemComponent(item+idx, item, idx))
+            var transformedPoint = translateAndRotate(cuisineX, cuisineY, CONST.INGREDIENT_RADIUS, CONST.INGREDIENT_THETAS[idx])
+            TOP = transformedPoint.y - SIZE / 2; LEFT = transformedPoint.x - SIZE / 2
+            console.log(cuisine, item, transformedPoint)
+            $('.circleDiv#'+cuisine+' > img').css({ width: SIZE, height: SIZE })
+            $('.circleDiv#'+cuisine+' > #'+item+idx).css({ top: TOP, left: LEFT })
+        })
+        
+    }
+
     var initIngredientsCircle = function (cuisine) {
         setIngredientsCirclePosition(cuisine, CONST.INACTIVE_CIRCLE_SIZE)
         initCuisineTitle(cuisine, CONST.ACTIVE_FOOD_SIZE, CONST.CUISINE_TITLE_EXTRAMARGIN)
+        initIngredientItems(cuisine, CONST.INGREDIENT_SIZE)
     }
 
     var initCuisineTitle = function (cuisine, WIDTH, EXTRAMARGIN) {
@@ -106,11 +147,7 @@
             cuisine.x *= CONST.RESCALING_FACTOR
             cuisine.y *= CONST.RESCALING_FACTOR
         })
-        CONST.CUISINE_TITLE_EXTRAMARGIN *= CONST.RESCALING_FACTOR
-        CONST.INACTIVE_FOOD_SIZE *= CONST.RESCALING_FACTOR
-        CONST.INACTIVE_CIRCLE_SIZE *= CONST.RESCALING_FACTOR
-        CONST.ACTIVE_FOOD_SIZE *= CONST.RESCALING_FACTOR
-        CONST.ACTIVE_CIRCLE_SIZE *= CONST.RESCALING_FACTOR
+        RESCALABLE_CONST.forEach(attrName => CONST[attrName] *= CONST.RESCALING_FACTOR)
     }
 
     $(document).ready(() => {
@@ -118,7 +155,8 @@
         cuisines.forEach(cuisine => {
             $('.detail#' + cuisine.id).hover(() => { // handlerIn
                 showDetails(cuisine.id)
-            }, () => { // handlerOut
+            }, () => {})
+            $('.circleDiv#' + cuisine.id).hover(() => {}, () => { // handlerOut
                 hideDetails(cuisine.id)
             })
             setCuisineFoodPosition(cuisine.id, CONST.INACTIVE_FOOD_SIZE)
