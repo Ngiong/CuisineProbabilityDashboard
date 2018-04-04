@@ -11,7 +11,7 @@
 </head>
 
 <body style="overflow-y: hidden">
-    <img class="worldmap" src="public/worldmap-empty.png" />
+    <img id="worldmap" src="public/worldmap-empty.png" />
     <img class="detail" id="british" src="public/british.png" />
     <img class="detail" id="italian" src="public/italian.png" />
     <img class="detail" id="moroccan" src="public/moroccan.png" />
@@ -48,6 +48,7 @@
 <script>
     // -- CONSTANT LABELING
     var CONST = {
+        RESCALING_FACTOR: 0.5,
         CUISINE_TITLE_EXTRAMARGIN: 150,
         INACTIVE_FOOD_SIZE: 200,
         INACTIVE_CIRCLE_SIZE: 275,
@@ -98,15 +99,29 @@
         $('.circleDiv#' + cuisine).css({ opacity: 0, zIndex: 0 })
     }
 
+    // -- RESCALING
+    var doRescaling = function() {
+        $('#worldmap').width($('#worldmap').width() * CONST.RESCALING_FACTOR)
+        cuisines.forEach(cuisine => {
+            cuisine.x *= CONST.RESCALING_FACTOR
+            cuisine.y *= CONST.RESCALING_FACTOR
+        })
+        CONST.CUISINE_TITLE_EXTRAMARGIN *= CONST.RESCALING_FACTOR
+        CONST.INACTIVE_FOOD_SIZE *= CONST.RESCALING_FACTOR
+        CONST.INACTIVE_CIRCLE_SIZE *= CONST.RESCALING_FACTOR
+        CONST.ACTIVE_FOOD_SIZE *= CONST.RESCALING_FACTOR
+        CONST.ACTIVE_CIRCLE_SIZE *= CONST.RESCALING_FACTOR
+    }
+
     $(document).ready(() => {
+        doRescaling()
         cuisines.forEach(cuisine => {
             $('.detail#' + cuisine.id).hover(() => { // handlerIn
                 showDetails(cuisine.id)
             }, () => { // handlerOut
                 hideDetails(cuisine.id)
             })
-
-            setCuisineFoodPosition(cuisine.id, 200)
+            setCuisineFoodPosition(cuisine.id, CONST.INACTIVE_FOOD_SIZE)
             initIngredientsCircle(cuisine.id)
         })
 

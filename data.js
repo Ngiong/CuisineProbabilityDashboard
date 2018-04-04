@@ -9,7 +9,8 @@ var cuisines = [
             apple: 0.524,
             banana: 0.2712,
             strawberry: 0.1252
-        }
+        },
+        worldmapDisplayedIngredients: ['apple', 'banana', 'strawberry', 'strawberry', 'apple', 'banana']
     },
     {
         id: "italian",
@@ -20,7 +21,8 @@ var cuisines = [
             apple: 0.1,
             banana: 0.2,
             strawberry: 0.3
-        }
+        },
+        worldmapDisplayedIngredients: ['apple', 'banana', 'strawberry', 'strawberry', 'apple', 'banana']
     },
     {
         id: "moroccan",
@@ -31,7 +33,8 @@ var cuisines = [
             apple: 0.0,
             banana: 0.0,
             strawberry: 0.0
-        }
+        },
+        worldmapDisplayedIngredients: ['apple', 'banana', 'strawberry', 'strawberry', 'apple', 'banana']
     },
     {
         id: "indian",
@@ -42,7 +45,8 @@ var cuisines = [
             apple: 0.0,
             banana: 0.0,
             strawberry: 0.0
-        }
+        },
+        worldmapDisplayedIngredients: ['apple', 'banana', 'strawberry', 'strawberry', 'apple', 'banana']
     },
     {
         id: "chinese",
@@ -53,7 +57,8 @@ var cuisines = [
             apple: 0.0,
             banana: 0.0,
             strawberry: 0.0
-        }
+        },
+        worldmapDisplayedIngredients: ['apple', 'banana', 'strawberry', 'strawberry', 'apple', 'banana']
     },
     {
         id: "korean",
@@ -64,7 +69,8 @@ var cuisines = [
             apple: 0.0,
             banana: 0.0,
             strawberry: 0.0
-        }
+        },
+        worldmapDisplayedIngredients: ['apple', 'banana', 'strawberry', 'strawberry', 'apple', 'banana']
     },
     {
         id: "thai",
@@ -75,7 +81,8 @@ var cuisines = [
             apple: 0.0,
             banana: 0.0,
             strawberry: 0.0
-        }
+        },
+        worldmapDisplayedIngredients: ['apple', 'banana', 'strawberry', 'strawberry', 'apple', 'banana']
     },
     {
         id: "brazilian",
@@ -86,7 +93,8 @@ var cuisines = [
             apple: 0.0,
             banana: 0.0,
             strawberry: 0.0
-        }
+        },
+        worldmapDisplayedIngredients: ['apple', 'banana', 'strawberry', 'strawberry', 'apple', 'banana']
     },
     {
         id: "mexican",
@@ -97,7 +105,8 @@ var cuisines = [
             apple: 0.0,
             banana: 0.0,
             strawberry: 0.0
-        }
+        },
+        worldmapDisplayedIngredients: ['apple', 'banana', 'strawberry', 'strawberry', 'apple', 'banana']
     }
 ]
 
