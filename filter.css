@@ -64,4 +64,5 @@
 
 .result-name, .result-value {
     text-align: center;
+    text-transform: capitalize;
 }
