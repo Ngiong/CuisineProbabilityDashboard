@@ -50,21 +50,33 @@
     var queryResult = []
 
     var initFilterDropdownMenu = function() {
-        cuisineMenu.forEach(menu => { 
-            $('#cuisine-dropdown-menu').append('<li id="' + menu.toLowerCase() + '"><a href="#">' + menu + '</a></li>')
-            $("li#"+menu.toLowerCase()+' > a').click(e => {
+        cuisines.forEach(cuisine => { 
+            $('#cuisine-dropdown-menu').append(
+                '<li id="' + cuisine.id + '"><a href="#" style="text-transform: capitalize">' +
+                    '<img src="' + cuisine.img + '" class="dropdown-icon" /> ' + cuisine.id + 
+                '</a></li>'
+            )
+            $("li#"+cuisine.id+' > a').click(e => {
                 e.preventDefault()
-                activeCuisine = menu.toLowerCase()
-                $('#activeCuisine').html(menu + '<span class="caret"></span>')
+                activeCuisine = cuisine.id
+                $('#activeCuisine').html(
+                    '<span><img src="' + cuisine.img + '" class="dropdown-icon" /> ' + cuisine.id + '</span><span class="caret"></span>'
+                )
                 executeQueryAndDisplay()
             })
         })
-        ingredientMenu.forEach(menu => { 
-            $('#ingredient-dropdown-menu').append('<li id="' + menu.toLowerCase() + '"><a href="#">' + menu + '</a></li>')
-            $("li#"+menu.toLowerCase()+' > a').click(e => {
+        ingredients.forEach(ingredient => { 
+            $('#ingredient-dropdown-menu').append(
+                '<li id="' + ingredient.id + '"><a href="#" style="text-transform: capitalize">' +
+                    '<img src="' + ingredient.img + '" class="dropdown-icon" /> ' + ingredient.id + 
+                '</a></li>'
+            )
+            $("li#"+ingredient.id+' > a').click(e => {
                 e.preventDefault()
-                activeIngredient = menu.toLowerCase()
-                $('#activeIngredient').html(menu + '<span class="caret"></span>')
+                activeIngredient = ingredient.id
+                $('#activeIngredient').html(
+                    '<span><img src="' + ingredient.img + '" class="dropdown-icon" /> ' + ingredient.id + '</span><span class="caret"></span>'
+                )
                 executeQueryAndDisplay()
             })
         })
@@ -75,7 +87,6 @@
         $('#activeCuisine').html('Filter by Cuisine <span class="caret"></span>')
         executeQueryAndDisplay()
     }
-
     var clearIngredientFilter = function() {
         activeIngredient = 0;
         $('#activeIngredient').html('Filter by Ingredient <span class="caret"></span>')
@@ -83,13 +94,12 @@
     }
 
     var createResultComponent = function(item) {
-        if (item.type === 'CUISINE') {
-            return '<p>' + item.name + " [CUISINE] " + item.value + "</p>"
-        } else if (item.type === 'INGREDIENT') {
-            return '<p>' + item.name + " [INGREDIENT] " + item.value + "</p>"
-        } else { // 'NOTHING'
-            return '<p>Still no result :(</p>'
-        }
+        var imgTag = '<img class="result-img" src="' + item.img + '" />'
+        var nameTag = '<div class="result-name">' + item.name + '</div>'
+        var valueTag = '<div class="result-value">' + item.value + '</div>'
+        
+        var result = '<div class="col-md-4">' + imgTag + nameTag + valueTag + '</div>'
+        return result
     }
 
     var executeQueryAndDisplay = () => {
@@ -99,23 +109,22 @@
             // Tampilin activeCuisine dan activeIngredient
             var cuisine = cuisines.filter(x => x.id === activeCuisine)[0]
             var probability = cuisine.probability[activeIngredient]
-            queryResult.push({ type: 'INGREDIENT', name: activeIngredient, value: probability })
+            var ingredientImg = ingredients.filter(x => x.id === activeIngredient)[0].img
+            queryResult.push({ name: activeIngredient, value: probability, img: ingredientImg  })
         } else if (activeCuisine) {
             // Tampilin activeCuisine dan SEMUA ingredients
             var cuisine = cuisines.filter(x => x.id === activeCuisine)[0]
             var probability = cuisine.probability
             Object.keys(cuisine.probability).forEach(ingred => {
-                queryResult.push({ type: 'INGREDIENT', name: ingred, value: probability[ingred] })
+                var ingredientImg = ingredients.filter(x => x.id === ingred)[0].img
+                queryResult.push({ name: ingred, value: probability[ingred], img: ingredientImg })
             })
         } else if (activeIngredient) {
             // Tampilin cuisine2 yg paling besar probabilitynya di ingredients tsb.
             cuisines.forEach(cuisine => {
                 var activeIngredientProbability = (cuisine.probability[activeIngredient]) ? cuisine.probability[activeIngredient] : 0.0
-                queryResult.push({ type: 'CUISINE', name: cuisine.id, value: activeIngredientProbability })
+                queryResult.push({ name: cuisine.id, img: cuisine.img, value: activeIngredientProbability })
             })
-        } else {
-            // Tampilin "select filter"
-            queryResult.push({ type: 'NOTHING' })
         }
         queryResult.sort((a, b) => b.value - a.value)
         displayFiltered()
@@ -123,10 +132,15 @@
 
     var displayFiltered = function () {
         $('#result').empty()
-        queryResult.forEach(result => $('#result').append(createResultComponent(result)))
+        if (queryResult.length > 0) {
+            queryResult.forEach(result => $('#result').append(createResultComponent(result)))
+        } else {
+            $('#result').append('<p>Still no result :(</p>')
+        }
     }
 
     $(document).ready(() => {
         initFilterDropdownMenu()
+        displayFiltered()
     })
 </script>

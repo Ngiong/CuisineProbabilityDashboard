@@ -8,6 +8,11 @@
     display: inline-flex;
     align-items: center;
     justify-content: space-between;
+    text-transform: capitalize;
+}
+
+.dropdown-icon {
+    height: 1em;
 }
 
 #result {
@@ -51,4 +56,12 @@
 
 .container-small, .container-large {
     max-width: 100%;
+}
+
+.result-img {
+    width: 100%;
+}
+
+.result-name, .result-value {
+    text-align: center;
 }
