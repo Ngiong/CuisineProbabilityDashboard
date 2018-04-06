@@ -12,6 +12,7 @@
 </head>
 <body>
     <div class="container-small" id="main-container">
+        <div class="container-btn" id="filter-btn">a</div>
         <div class="container-fluid" id="filter">
             <div class="col-md-6">
                 <div class="dropdown" id="cuisine-filter">
@@ -43,6 +44,7 @@
 <script>
     var activeCuisine = 0
     var activeIngredient = 0
+    var menuOpen = false
 
     var queryResult = []
 
@@ -136,7 +138,13 @@
         }
     }
 
+    var toggleOpen = function () {
+        if (menuOpen) { $('#main-container').css({ right: -700 }); menuOpen = false }
+        else { $('#main-container').css({ right: 0 }); menuOpen = true }
+    }
+
     $(document).ready(() => {
+        $('#filter-btn').click(toggleOpen)
         initFilterDropdownMenu()
         displayFiltered()
     })

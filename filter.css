@@ -24,9 +24,13 @@
 
 #main-container {
     /* background-color: lightcyan; */
+    position: fixed;
+    top: 0; right: -700px;
     height: 100vh;
     display: flex;
     flex-direction: column;
+    border-left: 2px solid black;
+    transition: right 1s;
 }
 
 @media (min-width: 768px) {
@@ -65,4 +69,15 @@
 .result-name, .result-value {
     text-align: center;
     text-transform: capitalize;
+}
+
+.container-btn {
+    border-radius: 1em 0em 0em 1em;
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
+    border-left: 2px solid black;
+    position: absolute;
+    bottom: 3em; left: -3em;
+    background-color: red;
+    width: 3em; height: 8em;
 }
