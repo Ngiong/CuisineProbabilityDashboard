@@ -130,12 +130,15 @@
      }
 
     var displayFiltered = function () {
-        $('#result').empty()
-        if (queryResult.length > 0) {
-            queryResult.forEach(result => $('#result').append(createResultComponent(result)))
-        } else {
-            $('#result').append('<p>Still no result :(</p>')
-        }
+        $('#result').fadeToggle(500, () => {
+            $('#result').empty()
+            if (queryResult.length > 0) {
+                queryResult.forEach(result => $('#result').append(createResultComponent(result)))
+            } else {
+                $('#result').append('<p>Still no result :(</p>')
+            }
+            $('#result').fadeToggle(500)
+        })
     }
 
     var toggleOpen = function () {
