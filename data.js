@@ -66,11 +66,14 @@ var cuisines = [
         x: 1519,
         y: 276,
         probability: {
-            apple: 0.0,
-            banana: 0.0,
-            strawberry: 0.0
+            ginger: 0.55,
+            corn: 0.395,
+            egg: 0.235,
+            carrot: 0.135,
+            flour: 0.11,
+            noodle: 0.105
         },
-        worldmapDisplayedIngredients: ['apple', 'banana', 'strawberry', 'strawberry', 'apple', 'banana']
+        worldmapDisplayedIngredients: ['ginger', 'corn', 'egg', 'carrot', 'flour', 'noodle']
     },
     {
         id: "korean",
@@ -78,11 +81,14 @@ var cuisines = [
         x: 1734,
         y: 332,
         probability: {
-            apple: 0.0,
-            banana: 0.0,
-            strawberry: 0.0
+            ginger: 0.39,
+            carrot: 0.235,
+            egg: 0.195,
+            cabbage: 0.115,
+            mushroom: 0.11,
+            flour: 0.085
         },
-        worldmapDisplayedIngredients: ['apple', 'banana', 'strawberry', 'strawberry', 'apple', 'banana']
+        worldmapDisplayedIngredients: ['ginger', 'carrot', 'egg', 'cabbage', 'mushroom', 'flour']
     },
     {
         id: "thai",
@@ -90,11 +96,14 @@ var cuisines = [
         x: 1607,
         y: 562,
         probability: {
-            apple: 0.0,
-            banana: 0.0,
-            strawberry: 0.0
+            lime: 0.535,
+            ginger: 0.335,
+            coconut: 0.325,
+            noodle: 0.175,
+            carrot: 0.13,
+            egg: 0.095
         },
-        worldmapDisplayedIngredients: ['apple', 'banana', 'strawberry', 'strawberry', 'apple', 'banana']
+        worldmapDisplayedIngredients: ['lime', 'ginger', 'coconut', 'noodle', 'carrot', 'egg']
     },
     {
         id: "brazilian",
@@ -102,11 +111,14 @@ var cuisines = [
         x: 632,
         y: 679,
         probability: {
-            apple: 0.0,
-            banana: 0.0,
-            strawberry: 0.0
+            lime: 0.325,
+            olive: 0.28,
+            tomato: 0.245,
+            milk: 0.235,
+            coconut: 0.23,
+            egg: 0.185
         },
-        worldmapDisplayedIngredients: ['apple', 'banana', 'strawberry', 'strawberry', 'apple', 'banana']
+        worldmapDisplayedIngredients: ['lime', 'olive', 'tomato', 'milk', 'coconut', 'egg']
     },
     {
         id: "mexican",
@@ -114,11 +126,14 @@ var cuisines = [
         x: 275,
         y: 470,
         probability: {
-            apple: 0.0,
-            banana: 0.0,
-            strawberry: 0.0
+            cheese: 0.4,
+            tortilla: 0.385,
+            lime: 0.31,
+            olive: 0.285,
+            tomato: 0.27,
+            cream: 0.245
         },
-        worldmapDisplayedIngredients: ['apple', 'banana', 'strawberry', 'strawberry', 'apple', 'banana']
+        worldmapDisplayedIngredients: ['cheese', 'tortilla', 'lime', 'olive', 'tomato', 'cream']
     }
 ]
 
@@ -136,6 +151,14 @@ var ingredients = [
         img: "public/ing/carrot.png",
     },
     {
+        id: "mushroom",
+        img: "public/ing/mushroom.png",
+    },
+    {
+        id: "tortilla",
+        img: "public/ing/tortilla.png",
+    },
+    {
         id: "egg",
         img: "public/ing/egg.png",
     },
@@ -146,6 +169,22 @@ var ingredients = [
     {
         id: "lemon",
         img: "public/ing/lemon.png",
+    },
+    {
+        id: "lime",
+        img: "public/ing/lime.png",
+    },
+    {
+        id: "corn",
+        img: "public/ing/corn.png",
+    },
+    {
+        id: "cabbage",
+        img: "public/ing/cabbage.png",
+    },
+    {
+        id: "noodle",
+        img: "public/ing/noodle.png",
     },
     {
         id: "basil",
