@@ -5,14 +5,16 @@
     <meta charset="utf-8" />
     <title>Cuisine Ingredient Probability Visualization</title>
     <link rel="stylesheet" type="text/css" href="worldmap.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.5.2/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="filter.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link href='https://fonts.googleapis.com/css?family=Bubblegum Sans' rel='stylesheet'>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 
-<body style="overflow-y: hidden">
+<body style="overflow: hidden; background-color: Gainsboro">
     <div class="title">Several Ingredient Probability in Some Countries</div>
-    <div style="transform: translateY(0);">
+    <div style="transform: translate(12.5%,0)">
         <img id="worldmap" src="public/worldmap-empty.png" />
         <img class="detail" id="british" src="public/british.png" />
         <img class="detail" id="italian" src="public/italian.png" />
@@ -34,20 +36,10 @@
         <div class="circleDiv" id="brazilian"></div>
         <div class="circleDiv" id="mexican"></div>
     </div>
-
-    <!-- <map name="image-map">
-      <area target="" id="british" title="british" href="#" coords="886,173,97" shape="circle" />
-      <area target="" id="italian" title="italian" href="#" coords="1082,334,93" shape="circle" />
-      <area target="" id="moroccan" title="moroccan" href="#" coords="826,430,95" shape="circle" />
-      <area target="" id="indian" title="indian" href="#" coords="1379,474,94" shape="circle" />
-      <area target="" id="chinese" title="chinese" href="#" coords="1519,276,96" shape="circle" />
-      <area target="" id="korean" title="korean" href="#" coords="1734,332,96" shape="circle" />
-      <area target="" id="thai" title="thai" href="#" coords="1607,562,97" shape="circle" />
-      <area target="" id="brazilian" title="brazilian" href="#" coords="632,679,97" shape="circle" />
-      <area target="" id="mexican" title="mexican" href="#" coords="275,470,94" shape="circle" />
-  </map> -->
+    <div id="filter-sidebar"></div>
 </body>
 <script src="data.js"></script>
+<script src="filter.js"></script>
 <script>
     var prevHoveredCuisine = null
 
@@ -62,12 +54,19 @@
         ACTIVE_CIRCLE_SIZE: 450,
         ACTIVE_FOOD_ZINDEX: 3,
         INGREDIENT_RADIUS: 175, // (ACTIVE_FOOD_SIZE + ACTIVE_FOOD_CIRCLE) / 2
+        INGREDIENT_ACTIVE_RADIUS: 200,
         INGREDIENT_THETAS: [217,164,114,66,15,323], // in degree
-        INGREDIENT_SIZE: 75
+        INGREDIENT_SIZE: 75,
+        INGREDIENT_HOVERED_SIZE: 120,
+        VISIBLE_OPACITY: 1,
+        HIDDEN_OPACITY: 0,
+        DESCRIPTION_BOX_WIDTH: 230,
+        DESCRIPTION_BOX_HEIGHT: 110
     }
     var RESCALABLE_CONST = [
         'CUISINE_TITLE_EXTRAMARGIN', 'INACTIVE_FOOD_SIZE', 'INACTIVE_CIRCLE_SIZE',
-        'ACTIVE_FOOD_SIZE', 'ACTIVE_CIRCLE_SIZE', 'INGREDIENT_RADIUS', 'INGREDIENT_SIZE'
+        'ACTIVE_FOOD_SIZE', 'ACTIVE_CIRCLE_SIZE', 'INGREDIENT_RADIUS', 'INGREDIENT_SIZE', 'INGREDIENT_HOVERED_SIZE',
+        'INGREDIENT_ACTIVE_RADIUS', 'DESCRIPTION_BOX_WIDTH', 'DESCRIPTION_BOX_HEIGHT'
     ]
 
     // -- POSITION INITIALIZERS
@@ -88,6 +87,10 @@
         var img = ingredients.find(x => x.id === ingredient).img
         return '<img id="'+id+'" class="ingredient-item-img" src="'+img+'" />'
     }
+    var createIngredientDescComponent = function(id, ingredient, value) {
+        return '<div id="desc-'+id+'" class="ingredient-description-div">'+
+            '<p style="text-align: center">'+ingredient+'<br />'+value+'</p></div>'
+    }
 
     var rotate = function (cx, cy, x, y, angle) {
         var radians = (Math.PI / 180.0) * angle,
@@ -101,18 +104,40 @@
         var newX = x + r, newY = y
         return rotate(x, y, newX, newY, theta)
     }
-
-    var initIngredientItems = function (cuisine, SIZE) {
+    var setIngredientsItemPosition = function (cuisine, ingredId, x, y, SIZE) {
+        TOP = y - SIZE / 2; LEFT = x - SIZE / 2
+        $('.circleDiv#'+cuisine+' > #'+ingredId).css({ top: TOP, left: LEFT, width: SIZE, height: SIZE })
+    }
+    var setIngredientsDescPosition = function (cuisine, ingredId, x, y, visible) {
+        TOP = y - CONST.DESCRIPTION_BOX_HEIGHT / 2; LEFT = x - CONST.DESCRIPTION_BOX_WIDTH / 2
+        $('.circleDiv#'+cuisine+' > #desc-'+ingredId).css({ 
+            top: TOP, left: LEFT, height: CONST.DESCRIPTION_BOX_HEIGHT, width: CONST.DESCRIPTION_BOX_WIDTH,
+            opacity: visible ? 1 : 0
+         })
+        
+    }
+    var initIngredientItems = function (cuisine) {
         var tmp = cuisines.find(x => x.id === cuisine)
         var cuisineX = tmp.x; cuisineY = tmp.y
         var displayedIngredients = tmp.worldmapDisplayedIngredients
         displayedIngredients.forEach((item, idx) => {
-            $('.circleDiv#'+cuisine).append(createIngredientItemComponent(item+idx, item, idx))
+            $('.circleDiv#'+cuisine).append(createIngredientItemComponent(item+idx, item, tmp.probability[item]))
             var transformedPoint = translateAndRotate(cuisineX, cuisineY, CONST.INGREDIENT_RADIUS, CONST.INGREDIENT_THETAS[idx])
-            TOP = transformedPoint.y - SIZE / 2; LEFT = transformedPoint.x - SIZE / 2
-            console.log(cuisine, item, transformedPoint)
-            $('.circleDiv#'+cuisine+' > img').css({ width: SIZE, height: SIZE })
-            $('.circleDiv#'+cuisine+' > #'+item+idx).css({ top: TOP, left: LEFT })
+            var activeTransformedPoint = translateAndRotate(cuisineX, cuisineY, CONST.INGREDIENT_ACTIVE_RADIUS, CONST.INGREDIENT_THETAS[idx])
+            var DX = CONST.DESCRIPTION_BOX_WIDTH * 0.9 * (idx <= 2 ? -1 : 1)
+            var DY = CONST.DESCRIPTION_BOX_HEIGHT * 0.5
+            setIngredientsItemPosition(cuisine, item+idx, transformedPoint.x, transformedPoint.y, CONST.INGREDIENT_SIZE)
+            // setIngredientsDescPosition(cuisine, item+idx, transformedPoint.x + DX, transformedPoint.y + DY, false)
+            
+            $('.circleDiv#'+cuisine+' > #'+item+idx).hover(() => {
+                setIngredientsItemPosition(cuisine, item+idx, activeTransformedPoint.x, activeTransformedPoint.y, CONST.INGREDIENT_HOVERED_SIZE)
+                $('.circleDiv#'+cuisine).append(createIngredientDescComponent(item+idx, item, tmp.probability[item]))
+                setIngredientsDescPosition(cuisine, item+idx, transformedPoint.x + DX, transformedPoint.y + DY, false)
+                setIngredientsDescPosition(cuisine, item+idx, transformedPoint.x + DX, transformedPoint.y, true)
+            }, () => {
+                setIngredientsItemPosition(cuisine, item+idx, transformedPoint.x, transformedPoint.y, CONST.INGREDIENT_SIZE)
+                $('.circleDiv#'+cuisine+' > #desc-'+item+idx).remove()
+            })
         })
         
     }
@@ -120,7 +145,7 @@
     var initIngredientsCircle = function (cuisine) {
         setIngredientsCirclePosition(cuisine, CONST.INACTIVE_CIRCLE_SIZE)
         initCuisineTitle(cuisine, CONST.ACTIVE_FOOD_SIZE, CONST.CUISINE_TITLE_EXTRAMARGIN)
-        initIngredientItems(cuisine, CONST.INGREDIENT_SIZE)
+        initIngredientItems(cuisine)
     }
 
     var initCuisineTitle = function (cuisine, WIDTH, EXTRAMARGIN) {
@@ -137,14 +162,14 @@
         setCuisineFoodPosition(cuisine, CONST.ACTIVE_FOOD_SIZE)
         setIngredientsCirclePosition(cuisine, CONST.ACTIVE_CIRCLE_SIZE)
         $('.detail#' + cuisine).css({ zIndex: CONST.ACTIVE_FOOD_ZINDEX })
-        $('.circleDiv#' + cuisine).css({ opacity: 1, zIndex: 2 })
+        $('.circleDiv#' + cuisine).css({ opacity: CONST.VISIBLE_OPACITY, zIndex: 2 })
     }
     var hideDetails = function (cuisine) {
         if (prevHoveredCuisine === cuisine) prevHoveredCuisine = null
         setCuisineFoodPosition(cuisine, CONST.INACTIVE_FOOD_SIZE)
         setIngredientsCirclePosition(cuisine, CONST.INACTIVE_CIRCLE_SIZE)
         $('.detail#' + cuisine).css({ zIndex: CONST.INACTIVE_FOOD_ZINDEX })
-        $('.circleDiv#' + cuisine).css({ opacity: 0, zIndex: 0 })
+        $('.circleDiv#' + cuisine).css({ opacity: CONST.HIDDEN_OPACITY, zIndex: 0 })
     }
 
     // -- RESCALING
@@ -169,9 +194,11 @@
             setCuisineFoodPosition(cuisine.id, CONST.INACTIVE_FOOD_SIZE)
             initIngredientsCircle(cuisine.id)
         })
-
-
+        $('#filter-sidebar').load('filter.html', () => {
+            $('#filter-btn').click(toggleOpen)
+            initFilterDropdownMenu()
+            displayFiltered()
+        })
     })
 </script>
-
 </html>

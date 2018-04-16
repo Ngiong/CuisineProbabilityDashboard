@@ -23,7 +23,7 @@
 }
 
 #main-container {
-    /* background-color: lightcyan; */
+    background-color: lightgrey;
     position: fixed;
     top: 0; right: -700px;
     height: 100vh;

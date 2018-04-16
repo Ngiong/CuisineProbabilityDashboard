@@ -1,7 +1,9 @@
 .title {
   font-size: 3em;
   font-family: 'Bubblegum Sans';
+  color: #401100;
   white-space: nowrap;
+  text-align: center;
 }
 
 .bg {
@@ -21,7 +23,8 @@
 .circleDiv {
   position: fixed;
   border-radius: 50%;
-  background-color: red;
+  border: 2px solid orangered;
+  background-color: #ffeedf;
   transition: opacity 1s, width 1s, height 1s, top 1s, left 1s;
   opacity: 0;
 }
@@ -31,8 +34,24 @@
   font-family: 'Bubblegum Sans';
   text-align: center;
   font-size: 1.5em; /** MUST BE RESCALED MANUALLY */
+  color: #40362e;
 }
 
 .ingredient-item-img {
   position: fixed;
+  transition: top 0.75s, left 0.75s, width 0.75s, height 0.75s;
+}
+
+.ingredient-description-div {
+  opacity: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  border-radius: 0.75em;
+  background-color: orangered;
+  color: white;
+  font-family: 'Bubblegum Sans';
+  font-size: 1.1em;
+  transition: opacity 0.75s, top 0.75s;
 }
