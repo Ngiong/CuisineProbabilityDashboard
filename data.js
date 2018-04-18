@@ -2,7 +2,7 @@
 var cuisines = [
     {
         id: "british",
-        img: "public/uk_flag.png",
+        img: "public/UK_flag.png",
         x: 886,
         y: 173,
         probability: {
