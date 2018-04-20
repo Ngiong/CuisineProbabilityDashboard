@@ -12,6 +12,7 @@
 
 #worldmap {
   z-index: 0;
+  opacity: 0.35;
 }
 
 .detail {
@@ -33,7 +34,7 @@
   position: fixed;
   font-family: 'Bubblegum Sans';
   text-align: center;
-  font-size: 1.5em; /** MUST BE RESCALED MANUALLY */
+  font-size: 1.7em; /** MUST BE RESCALED MANUALLY */
   color: #40362e;
 }
 

@@ -20,6 +20,9 @@
     flex: 1;
     width: 100%;
     overflow-y: auto;
+    margin: 0em 1em;
+    font-family:'Alegreya Sans SC';
+    font-size: 1.5em;
 }
 
 #main-container {
@@ -31,6 +34,7 @@
     flex-direction: column;
     border-left: 2px solid black;
     transition: right 1s;
+    z-index: 100;
 }
 
 @media (min-width: 768px) {
@@ -63,7 +67,8 @@
 }
 
 .result-img {
-    width: 100%;
+    width: 75%;
+    margin: 12.5%;
 }
 
 .result-name, .result-value {
@@ -73,11 +78,29 @@
 
 .container-btn {
     border-radius: 1em 0em 0em 1em;
-    border-top: 2px solid black;
-    border-bottom: 2px solid black;
-    border-left: 2px solid black;
+    border-top: 4px solid black;
+    border-bottom: 4px solid black;
+    border-left: 4px solid black;
     position: absolute;
-    bottom: 3em; left: -3em;
-    background-color: red;
+    bottom: 3em; left: -2.5em;
+    background-color: white;
     width: 3em; height: 8em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    transition: left 0.25s;
+}
+
+.container-btn > span {
+    font-size: 2em;
+}
+
+.glass-tint {
+    background-color: black;
+    position: fixed; top: 0; left: 0;
+    width: 100vw;
+    height: 100vh;
+    opacity: 0;
+    transition: opacity 0.5s;
 }
