@@ -37,7 +37,7 @@
 </head>
 
 <body style="overflow: hidden; background-color: Gainsboro">
-    <div class="title">Several Ingredient Probability in Some Countries</div>
+    <div class="title">Most Used Ingredient in Some Countries</div>
     <div style="transform: translate(12.5%,0)">
         <img id="worldmap" src="public/worldmap-empty.png" />
         <img class="detail" id="british" src="public/british.png" />
@@ -75,10 +75,10 @@
         INACTIVE_CIRCLE_SIZE: 275,
         INACTIVE_FOOD_ZINDEX: 1,
         ACTIVE_FOOD_SIZE: 275,
-        ACTIVE_CIRCLE_SIZE: 500,
+        ACTIVE_CIRCLE_SIZE: 520,
         ACTIVE_FOOD_ZINDEX: 3,
-        INGREDIENT_RADIUS: 190, // (ACTIVE_FOOD_SIZE + ACTIVE_FOOD_CIRCLE) / 2
-        INGREDIENT_ACTIVE_RADIUS: 210,
+        INGREDIENT_RADIUS: 200, // (ACTIVE_FOOD_SIZE + ACTIVE_FOOD_CIRCLE) / 2
+        INGREDIENT_ACTIVE_RADIUS: 220,
         INGREDIENT_THETAS: [217,164,114,66,15,323], // in degree
         INGREDIENT_SIZE: 60,
         INGREDIENT_SCALING_FACTOR: 6,
@@ -114,7 +114,8 @@
     }
     var createIngredientDescComponent = function(id, ingredient, value) {
         return '<div id="desc-'+id+'" class="ingredient-description-div">'+
-            '<p style="text-align: center">'+ingredient+'<br />'+Math.round(value*10000)/100+' %</p></div>'
+            '<p style="text-align: center;">'+
+                '<span style="font-size: 1.5em">'+ingredient+'</span><br />'+Math.round(value*10000)/100+' %</p></div>'
     }
 
     var rotate = function (cx, cy, x, y, angle) {
@@ -136,7 +137,7 @@
     var setIngredientsDescPosition = function (cuisine, ingredId, x, y, visible) {
         TOP = y - CONST.DESCRIPTION_BOX_HEIGHT / 2; LEFT = x - CONST.DESCRIPTION_BOX_WIDTH / 2
         $('.circleDiv#'+cuisine+' > #desc-'+ingredId).css({ 
-            top: TOP, left: LEFT, height: CONST.DESCRIPTION_BOX_HEIGHT, width: CONST.DESCRIPTION_BOX_WIDTH,
+            top: TOP, left: LEFT, width: CONST.DESCRIPTION_BOX_WIDTH,
             opacity: visible ? 1 : 0
          })
         

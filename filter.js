@@ -51,7 +51,7 @@ var clearIngredientFilter = function() {
 var createResultComponent = function(item) {
     var imgTag = '<img class="result-img" src="' + item.img + '" />'
     var nameTag = '<div class="result-name">' + item.name + '</div>'
-    var valueTag = '<div class="result-value">' + Math.round(item.value * 10000)/100 + ' %</div>'
+    var valueTag = '<div class="result-value">' + Math.round((item.value || 0.0)* 10000)/100 + ' %</div>'
     
     var result = '<div class="col-md-4">' + imgTag + nameTag + valueTag + '</div>'
     return result
@@ -105,7 +105,7 @@ var toggleOpen = function () {
         $('.glass-tint').css({ opacity: 0 })
         setTimeout(() => $('.glass-tint').css({ display: 'none' }), 500)
         $('#main-container').css({ right: -700 })
-        setTimeout(() => $('#filter-btn').css({ left: '-2.5em' }), 1250)
+        setTimeout(() => $('#filter-btn').css({ left: '-3em' }), 1250)
         $('#filter-btn > span').fadeToggle(500, () => {
             $('#filter-btn > span').toggleClass('glyphicon-chevron-right glyphicon-search')
             $('#filter-btn > span').css({ color: '' })
@@ -117,7 +117,7 @@ var toggleOpen = function () {
         $('.glass-tint').css({ display: '' })
         setTimeout(() => $('.glass-tint').css({ opacity: 0.5 }), 250)
         $('#main-container').css({ right: 0 })
-        $('#filter-btn').css({ left: '-3em' })
+        $('#filter-btn').css({ left: '-4em' })
         $('#filter-btn > span').fadeToggle(500, () => {
             $('#filter-btn > span').toggleClass('glyphicon-search glyphicon-chevron-right')
             $('#filter-btn > span').css({ color: 'orangered' })
@@ -131,11 +131,11 @@ var initFilterButton = function () {
     $('#filter-btn').click(toggleOpen)
     $('#filter-btn').hover(() => {
         if (!menuOpen) {
-            $('#filter-btn').css({ left: '-3em' })
+            $('#filter-btn').css({ left: '-4em' })
         }
     }, () => {
         if (!menuOpen) {
-            $('#filter-btn').css({ left: '-2.5em' })
+            $('#filter-btn').css({ left: '-3em' })
         }
     })
 }

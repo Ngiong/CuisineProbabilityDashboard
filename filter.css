@@ -82,14 +82,16 @@
     border-bottom: 4px solid black;
     border-left: 4px solid black;
     position: absolute;
-    bottom: 3em; left: -2.5em;
+    bottom: 3em; left: -3em;
     background-color: white;
-    width: 3em; height: 8em;
+    width: 4em; height: 10em;
     display: flex;
     flex-direction: column;
     justify-content: center;
     text-align: center;
     transition: left 0.25s;
+    padding-right: 1em;
+    /* box-shadow: 2px 2px 0px 8px red; */
 }
 
 .container-btn > span {
