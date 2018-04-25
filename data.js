@@ -1,6 +1,21 @@
 // -- DATA
 var cuisines = [
     {
+        id: "brazilian",
+        img: "public/brazil_flag.png",
+        x: 632,
+        y: 679,
+        probability: {
+            lime: 0.325,
+            olive: 0.28,
+            tomato: 0.245,
+            milk: 0.235,
+            coconut: 0.23,
+            egg: 0.185
+        },
+        worldmapDisplayedIngredients: ['lime', 'olive', 'tomato', 'milk', 'coconut', 'egg']
+    },
+    {
         id: "british",
         img: "public/UK_flag.png",
         x: 886,
@@ -14,51 +29,6 @@ var cuisines = [
             cheese: 0.125
         },
         worldmapDisplayedIngredients: ['flour', 'egg', 'milk', 'cream', 'potato', 'cheese']
-    },
-    {
-        id: "italian",
-        img: "public/italy_flag.png",
-        x: 1082,
-        y: 334,
-        probability: {
-            cheese: 0.545,
-            olive: 0.435,
-            tomato: 0.305,
-            basil: 0.21,
-            lemon: 0.2,
-            egg: 0.145
-        },
-        worldmapDisplayedIngredients: ['cheese', 'olive', 'tomato', 'basil', 'lemon', 'egg']
-    },
-    {
-        id: "moroccan",
-        img: "public/morocco_flag.png",
-        x: 826,
-        y: 430,
-        probability: {
-            olive: 0.55,
-            lemon: 0.41,
-            ginger: 0.315,
-            tomato: 0.34,
-            paprika: 0.275,
-            carrot: 0.23,
-        },
-        worldmapDisplayedIngredients: ['olive', 'lemon', 'ginger', 'tomato', 'paprika', 'carrot']
-    },
-    {
-        id: "indian",
-        img: "public/india_flag.png",
-        x: 1379,
-        y: 474,
-        probability: {
-            ginger: 0.505,
-            tomato: 0.435,
-            mustard: 0.225,
-            lemon: 0.2,
-            coconut: 0.175,
-            potato: 0.155
-        },
-        worldmapDisplayedIngredients: ['ginger', 'tomato', 'mustard', 'lemon', 'coconut', 'potato']
     },
     {
         id: "chinese",
@@ -76,6 +46,36 @@ var cuisines = [
         worldmapDisplayedIngredients: ['ginger', 'corn', 'egg', 'carrot', 'flour', 'noodle']
     },
     {
+        id: "indian",
+        img: "public/india_flag.png",
+        x: 1379,
+        y: 474,
+        probability: {
+            ginger: 0.505,
+            tomato: 0.435,
+            mustard: 0.225,
+            lemon: 0.2,
+            coconut: 0.175,
+            potato: 0.155
+        },
+        worldmapDisplayedIngredients: ['ginger', 'tomato', 'mustard', 'lemon', 'coconut', 'potato']
+    },
+    {
+        id: "italian",
+        img: "public/italy_flag.png",
+        x: 1082,
+        y: 334,
+        probability: {
+            cheese: 0.545,
+            olive: 0.435,
+            tomato: 0.305,
+            basil: 0.21,
+            lemon: 0.2,
+            egg: 0.145
+        },
+        worldmapDisplayedIngredients: ['cheese', 'olive', 'tomato', 'basil', 'lemon', 'egg']
+    },
+    {
         id: "korean",
         img: "public/korea_flag.png",
         x: 1734,
@@ -91,36 +91,6 @@ var cuisines = [
         worldmapDisplayedIngredients: ['ginger', 'carrot', 'egg', 'cabbage', 'mushroom', 'flour']
     },
     {
-        id: "thai",
-        img: "public/thailand_flag.png",
-        x: 1607,
-        y: 562,
-        probability: {
-            lime: 0.535,
-            ginger: 0.335,
-            coconut: 0.325,
-            noodle: 0.175,
-            carrot: 0.13,
-            egg: 0.095
-        },
-        worldmapDisplayedIngredients: ['lime', 'ginger', 'coconut', 'noodle', 'carrot', 'egg']
-    },
-    {
-        id: "brazilian",
-        img: "public/brazil_flag.png",
-        x: 632,
-        y: 679,
-        probability: {
-            lime: 0.325,
-            olive: 0.28,
-            tomato: 0.245,
-            milk: 0.235,
-            coconut: 0.23,
-            egg: 0.185
-        },
-        worldmapDisplayedIngredients: ['lime', 'olive', 'tomato', 'milk', 'coconut', 'egg']
-    },
-    {
         id: "mexican",
         img: "public/mexico_flag.png",
         x: 275,
@@ -134,6 +104,36 @@ var cuisines = [
             cream: 0.245
         },
         worldmapDisplayedIngredients: ['cheese', 'tortilla', 'lime', 'olive', 'tomato', 'cream']
+    },
+    {
+        id: "moroccan",
+        img: "public/morocco_flag.png",
+        x: 826,
+        y: 430,
+        probability: {
+            olive: 0.55,
+            lemon: 0.41,
+            ginger: 0.315,
+            tomato: 0.34,
+            paprika: 0.275,
+            carrot: 0.23,
+        },
+        worldmapDisplayedIngredients: ['olive', 'lemon', 'ginger', 'tomato', 'paprika', 'carrot']
+    },
+    {
+        id: "thai",
+        img: "public/thailand_flag.png",
+        x: 1607,
+        y: 562,
+        probability: {
+            lime: 0.535,
+            ginger: 0.335,
+            coconut: 0.325,
+            noodle: 0.175,
+            carrot: 0.13,
+            egg: 0.095
+        },
+        worldmapDisplayedIngredients: ['lime', 'ginger', 'coconut', 'noodle', 'carrot', 'egg']
     }
 ]
 
