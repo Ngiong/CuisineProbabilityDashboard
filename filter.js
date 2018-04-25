@@ -51,7 +51,7 @@ var clearIngredientFilter = function() {
 var createResultComponent = function(item) {
     var imgTag = '<img class="result-img" src="' + item.img + '" />'
     var nameTag = '<div class="result-name">' + item.name + '</div>'
-    var valueTag = '<div class="result-value">' + item.value + '</div>'
+    var valueTag = '<div class="result-value">' + Math.round((item.value || 0.0)* 10000)/100 + ' %</div>'
     
     var result = '<div class="col-md-4">' + imgTag + nameTag + valueTag + '</div>'
     return result
@@ -91,13 +91,51 @@ var displayFiltered = function () {
         if (queryResult.length > 0) {
             queryResult.forEach(result => $('#result').append(createResultComponent(result)))
         } else {
-            $('#result').append('<p>Still no result :(</p>')
+            $('#result').append('<div class="col-md-12" style="text-align: center">' +
+                '<span class="glyphicon glyphicon-sunglasses" style="font-size: 2em"></span><br/>' +
+                'No Result' +
+                '</div>')
         }
         $('#result').fadeToggle(500)
     })
 }
 
 var toggleOpen = function () {
-    if (menuOpen) { $('#main-container').css({ right: -700 }); menuOpen = false }
-    else { $('#main-container').css({ right: 0 }); menuOpen = true }
+    if (menuOpen) {
+        $('.glass-tint').css({ opacity: 0 })
+        setTimeout(() => $('.glass-tint').css({ display: 'none' }), 500)
+        $('#main-container').css({ right: -700 })
+        setTimeout(() => $('#filter-btn').css({ left: '-3em' }), 1250)
+        $('#filter-btn > span').fadeToggle(500, () => {
+            $('#filter-btn > span').toggleClass('glyphicon-chevron-right glyphicon-search')
+            $('#filter-btn > span').css({ color: '' })
+            $('#filter-btn > span').fadeToggle(500)
+        })
+        menuOpen = false 
+    }
+    else { 
+        $('.glass-tint').css({ display: '' })
+        setTimeout(() => $('.glass-tint').css({ opacity: 0.5 }), 250)
+        $('#main-container').css({ right: 0 })
+        $('#filter-btn').css({ left: '-4em' })
+        $('#filter-btn > span').fadeToggle(500, () => {
+            $('#filter-btn > span').toggleClass('glyphicon-search glyphicon-chevron-right')
+            $('#filter-btn > span').css({ color: 'orangered' })
+            $('#filter-btn > span').fadeToggle(500)
+        })
+        menuOpen = true 
+    }
+}
+
+var initFilterButton = function () {
+    $('#filter-btn').click(toggleOpen)
+    $('#filter-btn').hover(() => {
+        if (!menuOpen) {
+            $('#filter-btn').css({ left: '-4em' })
+        }
+    }, () => {
+        if (!menuOpen) {
+            $('#filter-btn').css({ left: '-3em' })
+        }
+    })
 }

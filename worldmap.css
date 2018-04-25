@@ -12,11 +12,15 @@
 
 #worldmap {
   z-index: 0;
+  opacity: 0.5;
+  filter: blur(2px);
 }
 
 .detail {
+  border-radius: 50%;
   position: fixed;
   transition: width 1s, height 1s, top 1s, left 1s;
+  box-shadow: 6px 6px 10px dimgrey;
   z-index: 1;
 }
 
@@ -27,18 +31,21 @@
   background-color: #ffeedf;
   transition: opacity 1s, width 1s, height 1s, top 1s, left 1s;
   opacity: 0;
+  box-shadow: 10px 10px 20px dimgrey;
 }
 
 .cuisineTitle {
   position: fixed;
   font-family: 'Bubblegum Sans';
   text-align: center;
-  font-size: 1.5em; /** MUST BE RESCALED MANUALLY */
+  font-size: 1.7em; /** MUST BE RESCALED MANUALLY */
   color: #40362e;
 }
 
 .ingredient-item-img {
   position: fixed;
+  border-radius: 50%;
+  /* box-shadow: 4px 4px 10px dimgrey; */
   transition: top 0.75s, left 0.75s, width 0.75s, height 0.75s;
 }
 
@@ -53,5 +60,9 @@
   color: white;
   font-family: 'Bubblegum Sans';
   font-size: 1.1em;
+  text-transform: capitalize;
+  line-height: 1.2em;
   transition: opacity 0.75s, top 0.75s;
+  box-shadow: 2px 2px 5px dimgrey;
+  padding-top: 0.6em;
 }

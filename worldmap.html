@@ -4,16 +4,40 @@
 <head>
     <meta charset="utf-8" />
     <title>Cuisine Ingredient Probability Visualization</title>
+
+    <!-- FAVICON -->
+    <link rel="apple-touch-icon-precomposed" sizes="57x57" href="public/favicon/apple-touch-icon-57x57.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="public/favicon/apple-touch-icon-114x114.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="public/favicon/apple-touch-icon-72x72.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="public/favicon/apple-touch-icon-144x144.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="60x60" href="public/favicon/apple-touch-icon-60x60.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="120x120" href="public/favicon/apple-touch-icon-120x120.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="76x76" href="public/favicon/apple-touch-icon-76x76.png" />
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="public/favicon/apple-touch-icon-152x152.png" />
+    <link rel="icon" type="image/png" href="public/favicon/favicon-196x196.png" sizes="196x196" />
+    <link rel="icon" type="image/png" href="public/favicon/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/png" href="public/favicon/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="public/favicon/favicon-16x16.png" sizes="16x16" />
+    <link rel="icon" type="image/png" href="public/favicon/favicon-128.png" sizes="128x128" />
+    <meta name="application-name" content="&nbsp;"/>
+    <meta name="msapplication-TileColor" content="#FFFFFF" />
+    <meta name="msapplication-TileImage" content="public/favicon/mstile-144x144.png" />
+    <meta name="msapplication-square70x70logo" content="public/favicon/mstile-70x70.png" />
+    <meta name="msapplication-square150x150logo" content="public/favicon/mstile-150x150.png" />
+    <meta name="msapplication-wide310x150logo" content="public/favicon/mstile-310x150.png" />
+    <meta name="msapplication-square310x310logo" content="public/favicon/mstile-310x310.png" />
+
     <link rel="stylesheet" type="text/css" href="worldmap.css" />
     <link rel="stylesheet" type="text/css" href="filter.css" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link href='https://fonts.googleapis.com/css?family=Bubblegum Sans' rel='stylesheet'>
+    <link href='https://fonts.googleapis.com/css?family=Alegreya Sans SC' rel='stylesheet'>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 
 <body style="overflow: hidden; background-color: Gainsboro">
-    <div class="title">Several Ingredient Probability in Some Countries</div>
+    <div class="title">Most Used Ingredient in Some Countries</div>
     <div style="transform: translate(12.5%,0)">
         <img id="worldmap" src="public/worldmap-empty.png" />
         <img class="detail" id="british" src="public/british.png" />
@@ -51,13 +75,14 @@
         INACTIVE_CIRCLE_SIZE: 275,
         INACTIVE_FOOD_ZINDEX: 1,
         ACTIVE_FOOD_SIZE: 275,
-        ACTIVE_CIRCLE_SIZE: 450,
+        ACTIVE_CIRCLE_SIZE: 520,
         ACTIVE_FOOD_ZINDEX: 3,
-        INGREDIENT_RADIUS: 175, // (ACTIVE_FOOD_SIZE + ACTIVE_FOOD_CIRCLE) / 2
-        INGREDIENT_ACTIVE_RADIUS: 200,
+        INGREDIENT_RADIUS: 200, // (ACTIVE_FOOD_SIZE + ACTIVE_FOOD_CIRCLE) / 2
+        INGREDIENT_ACTIVE_RADIUS: 220,
         INGREDIENT_THETAS: [217,164,114,66,15,323], // in degree
-        INGREDIENT_SIZE: 75,
-        INGREDIENT_HOVERED_SIZE: 120,
+        INGREDIENT_SIZE: 60,
+        INGREDIENT_SCALING_FACTOR: 6,
+        INGREDIENT_HOVERED_SIZE: 140,
         VISIBLE_OPACITY: 1,
         HIDDEN_OPACITY: 0,
         DESCRIPTION_BOX_WIDTH: 230,
@@ -89,7 +114,8 @@
     }
     var createIngredientDescComponent = function(id, ingredient, value) {
         return '<div id="desc-'+id+'" class="ingredient-description-div">'+
-            '<p style="text-align: center">'+ingredient+'<br />'+value+'</p></div>'
+            '<p style="text-align: center;">'+
+                '<span style="font-size: 1.5em">'+ingredient+'</span><br />'+Math.round(value*10000)/100+' %</p></div>'
     }
 
     var rotate = function (cx, cy, x, y, angle) {
@@ -111,7 +137,7 @@
     var setIngredientsDescPosition = function (cuisine, ingredId, x, y, visible) {
         TOP = y - CONST.DESCRIPTION_BOX_HEIGHT / 2; LEFT = x - CONST.DESCRIPTION_BOX_WIDTH / 2
         $('.circleDiv#'+cuisine+' > #desc-'+ingredId).css({ 
-            top: TOP, left: LEFT, height: CONST.DESCRIPTION_BOX_HEIGHT, width: CONST.DESCRIPTION_BOX_WIDTH,
+            top: TOP, left: LEFT, width: CONST.DESCRIPTION_BOX_WIDTH,
             opacity: visible ? 1 : 0
          })
         
@@ -126,7 +152,7 @@
             var activeTransformedPoint = translateAndRotate(cuisineX, cuisineY, CONST.INGREDIENT_ACTIVE_RADIUS, CONST.INGREDIENT_THETAS[idx])
             var DX = CONST.DESCRIPTION_BOX_WIDTH * 0.9 * (idx <= 2 ? -1 : 1)
             var DY = CONST.DESCRIPTION_BOX_HEIGHT * 0.5
-            setIngredientsItemPosition(cuisine, item+idx, transformedPoint.x, transformedPoint.y, CONST.INGREDIENT_SIZE)
+            setIngredientsItemPosition(cuisine, item+idx, transformedPoint.x, transformedPoint.y, CONST.INGREDIENT_SIZE + (5-idx)*CONST.INGREDIENT_SCALING_FACTOR)
             // setIngredientsDescPosition(cuisine, item+idx, transformedPoint.x + DX, transformedPoint.y + DY, false)
             
             $('.circleDiv#'+cuisine+' > #'+item+idx).hover(() => {
@@ -135,7 +161,7 @@
                 setIngredientsDescPosition(cuisine, item+idx, transformedPoint.x + DX, transformedPoint.y + DY, false)
                 setIngredientsDescPosition(cuisine, item+idx, transformedPoint.x + DX, transformedPoint.y, true)
             }, () => {
-                setIngredientsItemPosition(cuisine, item+idx, transformedPoint.x, transformedPoint.y, CONST.INGREDIENT_SIZE)
+                setIngredientsItemPosition(cuisine, item+idx, transformedPoint.x, transformedPoint.y, CONST.INGREDIENT_SIZE + (5-idx)*CONST.INGREDIENT_SCALING_FACTOR)
                 $('.circleDiv#'+cuisine+' > #desc-'+item+idx).remove()
             })
         })
@@ -195,9 +221,9 @@
             initIngredientsCircle(cuisine.id)
         })
         $('#filter-sidebar').load('filter.html', () => {
-            $('#filter-btn').click(toggleOpen)
+            initFilterButton()
             initFilterDropdownMenu()
-            displayFiltered()
+            // displayFiltered()
         })
     })
 </script>
