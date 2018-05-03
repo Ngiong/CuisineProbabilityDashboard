@@ -1,6 +1,7 @@
 var activeCuisine = 0
 var activeIngredient = 0
 var menuOpen = false
+var displayChartActive = false
 
 var queryResult = []
 
@@ -58,7 +59,7 @@ var createResultComponent = function(item) {
 }
 
 var executeQueryAndDisplay = () => {
-    console.log(activeCuisine, activeIngredient)
+    var displayIngredient = true
     queryResult = []
     if (activeCuisine && activeIngredient) {
         // Tampilin activeCuisine dan activeIngredient
@@ -80,17 +81,81 @@ var executeQueryAndDisplay = () => {
             var activeIngredientProbability = (cuisine.probability[activeIngredient]) ? cuisine.probability[activeIngredient] : 0.0
             queryResult.push({ name: cuisine.id, img: cuisine.img, value: activeIngredientProbability })
         })
+        displayIngredient = false
     }
     queryResult.sort((a, b) => b.value - a.value)
-    displayFiltered()
+    displayFiltered(displayIngredient)
+}
+
+
+var myChart = null
+var displayChart = function (labels, data, ingred) {
+    if (labels.length == 0) {
+        $('#myChart').css({ display: 'none' })
+        return
+    } else {
+        $('#myChart').css({ display: 'block' })
     }
 
-var displayFiltered = function () {
+    if (!myChart) myChart = new Chart($('#myChart'), { type: 'bar', data: {}, options: {} })
+
+    var lookup = ingred ? ingredients : cuisines
+    var tmp1 = labels.map(x => lookup.find(y => y.id === x).chartBg)
+
+    var chartData = {
+        labels: labels,
+        datasets: [{
+            label: 'Probability',
+            data: data,
+            backgroundColor: tmp1
+        }]
+    }
+
+    var chartOptions = {
+        layout: {
+            padding: { top: 20 }
+        },
+        legend: {
+            display: false
+        },
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }],
+            xAxes: [{
+                ticks: {
+                    autoskip: false,
+                    minRotation: ingred ? 80 : 0,
+                    maxRotation: ingred ? 80 : 0
+                }
+            }]
+        }
+    }
+
+    myChart.data = chartData; myChart.options = chartOptions
+    myChart.update()
+}
+
+var displayFiltered = function (ingred) {
     $('#result').fadeToggle(500, () => {
         $('#result').empty()
         if (queryResult.length > 0) {
-            queryResult.forEach(result => $('#result').append(createResultComponent(result)))
+            if (displayChartActive)
+                displayChart(
+                    queryResult.map(x => x.name),
+                    queryResult.map(x => Math.round((x.value || 0.0)* 10000)/100),
+                    ingred
+                )
+            else {
+                // $('#myChart').fadeToggle(200, () => {
+                $('#myChart').css({ display: 'none' })
+                // })
+                queryResult.forEach(result => $('#result').append(createResultComponent(result)))
+            }
         } else {
+            $('#myChart').css({ display: 'none' })
             $('#result').append('<div class="col-md-12" style="text-align: center">' +
                 '<span class="glyphicon glyphicon-sunglasses" style="font-size: 2em"></span><br/>' +
                 'No Result' +
@@ -137,5 +202,9 @@ var initFilterButton = function () {
         if (!menuOpen) {
             $('#filter-btn').css({ left: '-3em' })
         }
+    })
+    $('#displayChartToggle').click(() => { 
+        displayChartActive = displayChartActive ? false : true
+        executeQueryAndDisplay() 
     })
 }

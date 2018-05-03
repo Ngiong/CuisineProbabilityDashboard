@@ -24,13 +24,17 @@
                 <button id="clearIngredient" class="btn btn-md btn-danger" onclick="clearIngredientFilter()">✘</button>
             </div>
         </div>
+        <div class="col-md-12">
+            <label><input id="displayChartToggle" type="checkbox" value=""> Display as bar chart</label>
+        </div>
     </div>
     <div class="container-fluid" id="result">
-            <div class="col-md-12" style="text-align: center">
-                <span class="glyphicon glyphicon-arrow-up" style="font-size: 2em"></span><br/>
-                Fill in your desired <br/>
-                <span style="font-size: 1.5em">CUISINE </span> or <span style="font-size: 1.5em"> INGREDIENT</span><br/>
-                to start your journey...
-            </div>'
+        <div class="col-md-12" style="text-align: center">
+            <span class="glyphicon glyphicon-arrow-up" style="font-size: 2em"></span><br/>
+            Fill in your desired <br/>
+            <span style="font-size: 1.5em">CUISINE </span> or <span style="font-size: 1.5em"> INGREDIENT</span><br/>
+            to start your journey...
+        </div>'
     </div>
+    <div class="col-md-12"><canvas id="myChart" style="display: none"></canvas></div>
 </div>

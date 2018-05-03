@@ -28,7 +28,8 @@ var cuisines = [
             potato: 0.0,
             tortilla: 0.0
         },
-        worldmapDisplayedIngredients: ['lime', 'olive', 'tomato', 'milk', 'coconut', 'egg']
+        worldmapDisplayedIngredients: ['lime', 'olive', 'tomato', 'milk', 'coconut', 'egg'],
+        chartBg: "ForestGreen",
     },
     {
         id: "british",
@@ -58,7 +59,8 @@ var cuisines = [
             tomato: 0.0,
             tortilla: 0.0
         },
-        worldmapDisplayedIngredients: ['flour', 'egg', 'milk', 'cream', 'potato', 'cheese']
+        worldmapDisplayedIngredients: ['flour', 'egg', 'milk', 'cream', 'potato', 'cheese'],
+        chartBg: "DodgerBlue",
     },
     {
         id: "chinese",
@@ -88,7 +90,8 @@ var cuisines = [
             tomato: 0.0,
             tortilla: 0.0
         },
-        worldmapDisplayedIngredients: ['ginger', 'corn', 'egg', 'carrot', 'flour', 'noodle']
+        worldmapDisplayedIngredients: ['ginger', 'corn', 'egg', 'carrot', 'flour', 'noodle'],
+        chartBg: "Crimson",
     },
     {
         id: "indian",
@@ -118,7 +121,8 @@ var cuisines = [
             paprika: 0.0,
             tortilla: 0.0
         },
-        worldmapDisplayedIngredients: ['ginger', 'tomato', 'mustard', 'lemon', 'coconut', 'potato']
+        worldmapDisplayedIngredients: ['ginger', 'tomato', 'mustard', 'lemon', 'coconut', 'potato'],
+        chartBg: "Coral",
     },
     {
         id: "italian",
@@ -148,7 +152,8 @@ var cuisines = [
             potato: 0.0,
             tortilla: 0.0
         },
-        worldmapDisplayedIngredients: ['cheese', 'olive', 'tomato', 'basil', 'lemon', 'egg']
+        worldmapDisplayedIngredients: ['cheese', 'olive', 'tomato', 'basil', 'lemon', 'egg'],
+        chartBg: "SpringGreen",
     },
     {
         id: "korean",
@@ -178,7 +183,8 @@ var cuisines = [
             tomato: 0.0,
             tortilla: 0.0
         },
-        worldmapDisplayedIngredients: ['ginger', 'carrot', 'egg', 'cabbage', 'mushroom', 'flour']
+        worldmapDisplayedIngredients: ['ginger', 'carrot', 'egg', 'cabbage', 'mushroom', 'flour'],
+        chartBg: "Snow",
     },
     {
         id: "mexican",
@@ -208,7 +214,8 @@ var cuisines = [
             paprika: 0.0,
             potato: 0.0
         },
-        worldmapDisplayedIngredients: ['cheese', 'tortilla', 'lime', 'olive', 'tomato', 'cream']
+        worldmapDisplayedIngredients: ['cheese', 'tortilla', 'lime', 'olive', 'tomato', 'cream'],
+        chartBg: "OrangeRed",
     },
     {
         id: "moroccan",
@@ -238,7 +245,8 @@ var cuisines = [
             potato: 0.0,
             tortilla: 0.0
         },
-        worldmapDisplayedIngredients: ['olive', 'lemon', 'ginger', 'tomato', 'paprika', 'carrot']
+        worldmapDisplayedIngredients: ['olive', 'lemon', 'ginger', 'tomato', 'paprika', 'carrot'],
+        chartBg: "Tomato",
     },
     {
         id: "thai",
@@ -268,7 +276,8 @@ var cuisines = [
             tomato: 0.0,
             tortilla: 0.0
         },
-        worldmapDisplayedIngredients: ['lime', 'ginger', 'coconut', 'noodle', 'carrot', 'egg']
+        worldmapDisplayedIngredients: ['lime', 'ginger', 'coconut', 'noodle', 'carrot', 'egg'],
+        chartBg: "Navy",
     }
 ]
 
@@ -276,85 +285,106 @@ var ingredients = [
     {
         id: "basil",
         img: "public/ing/basil.png",
+        chartBg: "#3cb44b",
     },
     {
         id: "cabbage",
         img: "public/ing/cabbage.png",
+        chartBg: "#fabebe",
     },
     {
         id: "carrot",
         img: "public/ing/carrot.png",
+        chartBg: "#FF7F50",
     },
     {
         id: "cheese",
         img: "public/ing/cheese.png",
+        chartBg: "#aaffc3",
     },
     {
         id: "coconut",
         img: "public/ing/coconut.png",
+        chartBg: "#800000",
     },
     {
         id: "corn",
         img: "public/ing/corn.png",
+        chartBg: "#FFD700",
     },
     {
         id: "cream",
         img: "public/ing/cream.png",
+        chartBg: "#f032e6",
     },
     {
         id: "egg",
         img: "public/ing/egg.png",
+        chartBg: "#ffd8b1",
     },
     {
         id: "flour",
         img: "public/ing/flour.png",
+        chartBg: "#46f0f0",
     },
     {
         id: "ginger",
         img: "public/ing/ginger.png",
+        chartBg: "#f58231",
     },
     {
         id: "milk",
         img: "public/ing/milk.png",
+        chartBg: "#0082c8",
     },
     {
         id: "mushroom",
         img: "public/ing/mushroom.png",
+        chartBg: "#fffac8",
     },
     {
         id: "mustard",
         img: "public/ing/mustard.png",
+        chartBg: "#F0E68C",
     },
     {
         id: "noodle",
         img: "public/ing/noodle.png",
+        chartBg: "#e6beff",
     },
     {
         id: "lemon",
         img: "public/ing/lemon.png",
+        chartBg: "#FFFF00",
     },
     {
         id: "lime",
         img: "public/ing/lime.png",
+        chartBg: "#d2f53c",
     },
     {
         id: "olive",
         img: "public/ing/olive.png",
+        chartBg: "#808000",
     },
     {
         id: "paprika",
         img: "public/ing/paprika.png",
+        chartBg: "#008080",
     },
     {
         id: "potato",
         img: "public/ing/potato.png",
+        chartBg: "#aa6e28",
     },
     {
         id: "tomato",
         img: "public/ing/tomato.png",
+        chartBg: "#FF6347",
     },
     {
         id: "tortilla",
         img: "public/ing/tortilla.png",
+        chartBg: "#911eb4",
     }
 ]
